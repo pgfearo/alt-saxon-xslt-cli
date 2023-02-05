@@ -1,0 +1,65 @@
+3 , finished loading input-a
+2 , input-a/0-lexical-whitespace
+0 , finished loading input-b
+0 , input-b/0-lexical-whitespace
+5 , input-a/0-dxml-whitespaceDetection
+0 , input-b/0-dxml-whitespaceDetection
+2 , finished flattening pre-processing input-a
+0 , finished flattening pre-processing input-b
+1 , input-a/0-dxml-normalizeSpace
+0 , input-a/2-dxml-renameFormatting
+0 , input-a/5-dxml-calsTable/0-dxml-cals-checker
+0 , input-a/5-dxml-calsTable/1-populate-colnames
+0 , input-a/5-dxml-calsTable/2-cals-infilter
+0 , input-a/6-dxml-htmlTable/0-dxml-html-checker
+0 , input-a/6-dxml-htmlTable/1-infilter
+0 , input-a/11-wordInfilter
+0 , input-b/0-dxml-normalizeSpace
+0 , input-b/2-dxml-renameFormatting
+0 , input-b/5-dxml-calsTable/0-dxml-cals-checker
+0 , input-b/5-dxml-calsTable/1-populate-colnames
+0 , input-b/5-dxml-calsTable/2-cals-infilter
+0 , input-b/6-dxml-htmlTable/0-dxml-html-checker
+0 , input-b/6-dxml-htmlTable/1-infilter
+0 , input-b/11-wordInfilter
+33 , finished comparison
+0 , result/0-output-part-1/0-dxml-wordOut/0-wordSpaceFixup
+1 , result/0-output-part-1/0-dxml-wordOut/1-dxml-redGreen
+0 , result/0-output-part-1/0-dxml-wordOut/6-dxml-orphanedWords
+0 , result/0-output-part-1/0-dxml-wordOut/7-dxml-wordOutfilter
+0 , result/0-output-part-1/0-dxml-wordOut/13-construct2.1
+1 , result/0-output-part-1/1-dxml-lexOut-entity-change-resolver
+0 , result/0-output-part-1/2-dxml-whitespace/0-dxml-handle-whitespace-conflicts
+1 , result/0-output-part-1/2-dxml-whitespace/1-dxml-ws-apply-ignore
+0 , result/0-output-part-1/2-dxml-whitespace/2-dxml-ws-prop-ignore
+0 , result/0-output-part-1/4-dxml-calsTable/0-overlap
+0 , result/0-output-part-1/4-dxml-calsTable/1-complex-tables
+0 , result/0-output-part-1/4-dxml-calsTable/2-intermediate-tables
+0 , result/0-output-part-1/4-dxml-calsTable/3-table-chooser
+0 , result/0-output-part-1/4-dxml-calsTable/4-add-colnums
+0 , result/0-output-part-1/4-dxml-calsTable/5-table-fixer
+0 , result/0-output-part-1/4-dxml-calsTable/6-validity-svrl-spliter
+0 , result/0-output-part-1/4-dxml-calsTable/7-validity-reporter
+0 , result/0-output-part-1/5-dxml-htmlTable/0-overlap
+0 , result/0-output-part-1/5-dxml-htmlTable/1-html-complex-tables
+0 , result/0-output-part-1/5-dxml-htmlTable/2-intermediate-tables
+0 , result/0-output-part-1/5-dxml-htmlTable/3-table-chooser
+0 , result/0-output-part-1/5-dxml-htmlTable/4-table-fixer
+0 , result/0-output-part-1/5-dxml-htmlTable/5-change-regrouper
+0 , result/0-output-part-1/5-dxml-htmlTable/6-html-validity-svrl-spliter
+0 , result/0-output-part-1/5-dxml-htmlTable/7-html-validity-reporter
+0 , result/0-output-part-1/8-propogate-ignore-changes
+0 , result/0-output-part-1/10-dxml-threshold
+0 , result/1-output-part-2/0-dxml-lexOut-preservation-item-ignore-marker
+1 , result/1-output-part-2/1-dxml-lexOut-apply-ignores
+0 , result/1-output-part-2/2-dxml-lexOut-propagate-ignores
+0 , result/1-output-part-2/4-dxml-groupingAndTc/2-dxml-splitTextGroups
+0 , result/1-output-part-2/4-dxml-groupingAndTc/3-dxml-redGreen
+0 , result/1-output-part-2/4-dxml-groupingAndTc/4-dxml-groupAdjChanges
+0 , result/1-output-part-2/4-dxml-groupingAndTc/5-dxml-stripEgroups
+1 , result/1-output-part-2/4-dxml-groupingAndTc/6-dxml-splitIgnorableWS
+0 , result/1-output-part-2/4-dxml-groupingAndTc/7-dxml-recombineTextGroups
+0 , result/1-output-part-2/6-dxml-lexOut-remove-defaulted-atts
+0 , result/1-output-part-2/9-dxml-outputFormat/0-removeRedundantDeltas
+0 , result/1-output-part-2/10-dxml-clean
+0 , finished saving/serializing the result

@@ -1,0 +1,1 @@
+destination directory for test results (in 'target')

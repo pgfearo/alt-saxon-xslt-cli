@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<!-- <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "/usr/local/java/docbook-xml-4.3/docbookx.dtd"> -->
+<article xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <title>User Guide</title>
+
+  <section>
+    <title>Introduction</title>
+    <para>DeltaXML Core provides a powerful solution to identify and process the differences between
+      any two XML files that share the same root element. Its primary use is as a toolkit for
+      integration into other systems or applications via the comprehensive API, but it may also be
+      run standalone from the command-line or a simple GUI.</para>
+    <para> This user guide introduces you to the Core product, providing a high-level product
+      description along with a look at the main features and concepts associated with this product.
+      You can find more detailed information on the subjects covered here by following the links to
+      an extensive set of tutorials, samples and papers that complement this product.</para>
+    <para>The <citetitle xlink:href="../ReadMe.html">Getting Started 'ReadMe'</citetitle> file
+      provides a quick start for the product as well as a description of all dependencies. The
+        <citetitle xlink:href="../samples/ReadMe.html">Samples 'ReadMe'</citetitle> gives a summary
+      of all the included samples. An overview of the features in the recently introduced Document
+      Comparator can be found in the <citetitle
+        xlink:href="dxml:content:products:core:docs:document-comparator-guide">Document Comparator
+        Guide</citetitle>. Comprehensive technical implementation information can be found in the
+        <phrase condition="java"><citetitle xlink:href="api/index.html">Java</citetitle> and
+          <citetitle xlink:href="http://docs.deltaxml.com/core/currentn/docs/api/index.html"
+          >.NET</citetitle> API documentation.</phrase>
+      <phrase condition="dotnet"><citetitle
+          xlink:href="http://docs.deltaxml.com/core/current/docs/api/index.html">Java</citetitle> and
+          <citetitle xlink:href="api/index.html">.NET</citetitle> API documentation.
+      </phrase></para>
+    <figure>
+      <title>The DeltaXML Core API provides a high level of extensibility</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="user-guide-images/control.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>The DeltaXML approach is unique in that:</para>
+    <itemizedlist>
+      <listitem>
+        <para> The change file is recorded in a XML 'delta file'. </para>
+      </listitem>
+      <listitem>
+        <para> The delta file has the same look and feel as the original files. </para>
+      </listitem>
+      <listitem>
+        <para> The delta file can include changes only or changes plus unchanged data. </para>
+      </listitem>
+      <listitem>
+        <para> The delta file is easy to understand and to process because it is an XML file.
+        </para>
+      </listitem>
+      <listitem>
+        <para> The delta file can therefore be processed with standard XML tools. </para>
+      </listitem>
+      <listitem>
+        <para> Comparison can be customized by defining/extending filter pipelines. </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>XML Comparison Features</title>
+    <para>Two input files are used for a DeltaXML Core comparison, referred to here as 'A' and 'B'
+      files. Whilst it is often the case that 'B' is a modification of 'A', it is also possible that
+      both inputs are derived independently from a common source. Using this terminology, a
+      user-oriented set of high-level features is outlined below:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>General Features</term>
+        <listitem>
+          <itemizedlist>
+            <listitem>
+              <para> Find <emphasis>all</emphasis> the differences between any two XML files ('A'
+                and 'B'). </para>
+            </listitem>
+            <listitem>
+              <para> Apply changes to <emphasis>convert</emphasis> an 'A' XML file into the 'B'
+                version (i.e. a diff 'patch').</para>
+            </listitem>
+            <listitem>
+              <para>
+                <emphasis>Undo</emphasis> changes to convert a 'B' XML file into the 'A' version.
+              </para>
+            </listitem>
+            <listitem>
+              <para> Display change information in either XML or HTML form, using a standard web
+                browser. </para>
+            </listitem>
+            <listitem>
+              <para> Report changes only or changes+unchanged data. </para>
+            </listitem>
+            <listitem>
+              <para> Use XSLT input and output filters to pre and post process the XML data. </para>
+            </listitem>
+            <listitem>
+              <para> Handle large files without performance degradation. </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Document Comparison Features and Benefits</term>
+        <listitem>
+          <itemizedlist>
+            <listitem>
+              <para>Extensible pipeline with embedded functionality.</para>
+            </listitem>
+            <listitem>
+              <para>Text processing for differences on a word-by-word basis.</para>
+            </listitem>
+            <listitem>
+              <para>Special processing for formatting-elements.</para>
+            </listitem>
+            <listitem>
+              <para>HTML/CALS table structure aware.</para>
+            </listitem>
+            <listitem>
+              <para>Extension points for adding filter steps to the pipeline.</para>
+            </listitem>
+            <listitem>
+              <para>Ignoring changes to non-significant whitespace.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Multi-Document Comparisons</term>
+        <listitem>
+          <para>Core only supports the comparison of two XML documents at a time; multi-document
+            comparison is however available in <citetitle xlink:href="https://www.deltaxml.com/products/merge/xml-merge/"
+              >Merge</citetitle> (three documents) and <citetitle
+              xlink:href="https://www.deltaxml.com/products/merge/dita-merge/">DITA Merge</citetitle> (three or more
+            documents).</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+  </section>
+  <section>
+    <title>Running a Comparison</title>
+    <para>DeltaXML Core runs locally on your own hardware and allows you to quickly embed XML
+      comparison functionality into your own systems, it can be run in a variety of ways, with the
+      range of options determined by the version of the product downloaded.</para>
+    <table frame="all" role="uniform-rows">
+      <title>Comparison options for DeltaXML Core Downloads</title>
+      <tgroup cols="4">
+        <colspec colname="c1" colnum="1" colwidth="1.2*"/>
+        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+        <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+        <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+        <thead>
+          <row>
+            <entry>System</entry>
+            <entry>Java (Unix/Windows)</entry>
+            <entry>Mac</entry>
+            <entry>.NET</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>GUI</entry>
+            <entry>√</entry>
+            <entry>√</entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>Command Line</entry>
+            <entry>√</entry>
+            <entry>√</entry>
+            <entry>√</entry>
+          </row>
+          <row>
+            <entry>Oxygen Plugin</entry>
+            <entry>√</entry>
+            <entry>√</entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>Java API</entry>
+            <entry>√</entry>
+            <entry>√</entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>.NET API </entry>
+            <entry/>
+            <entry/>
+            <entry>√</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>The DeltaXML Core <link xlink:href="https://www.deltaxml.com/products/compare/xml-compare/download">Download
+        Page</link> provides a choice of three possible downloads: Java/UNIX/Windows, Mac, and .NET.
+      To start with, provided you don't want to use the .NET API, you should select the download
+      option that matches your target operating system, each download option includes the required
+      Java JAR files (e.g. deltaxml.jar) and support resources. If you're developing for .NET (on
+      Windows) you should select the .NET download option - note that this version does not include
+      the GUI available in other downloads. <emphasis>Note: A licence file is required to run Core,
+        see the <citetitle
+          xlink:href="https://www.deltaxml.com/support/licensing/DeltaXML-licensing-user-guide.pdf"
+          >Licensing User Guide</citetitle> for more details.</emphasis></para>
+    <figure>
+      <title>Core can be invoked using a choice of interfaces (simplified view)</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="user-guide-images/layers.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+
+    <para>A comparison can be run programmatically, using Java or .NET APIs or, alternatively, it
+      can be user-driven via the command-line (see the <citetitle
+        xlink:href="command-processor.html">Command-Line ReadMe</citetitle>), an oXygen plugin
+      (after installation of the <citetitle xlink:href="dxml:content:products:plugins:oxygen-plugin"
+        >DeltaXML oXygen Adaptor</citetitle>) or a simple <citetitle xlink:href="">graphical
+        user-interface (GUI)</citetitle>. <emphasis>Note that the GUI is designed to help
+        demonstrate some of the built-in capabilities of Core, but it is not intended as a
+        standalone productivity tool.</emphasis>
+    </para>
+    <para>It is also possible to invoke a further nested comparison from within an XSLT filter using
+      a provided <code>compare()</code> XSLT extension function, this is described in the <citetitle
+        condition="java" xlink:href="api/com/deltaxml/ext/xslt/saxon/Comparison.html">Java API
+        documentation</citetitle>
+      <citetitle condition="dotnet"
+        xlink:href="api/html/T_com_deltaxml_ext_xslt_saxon_Comparison.htm">.NET API
+        documentation</citetitle>.</para>
+  </section>
+  <section>
+    <title>Customising a Comparison</title>
+    <para>Since Core uses XML to represent changes, an API and Pipeline Configuration architecture
+      allows standard XML technologies such as XSLT to be applied, complex information pipelines can
+      therefore be built from a set of simple proven components. <figure>
+        <title>Configuration of a typical custom comparison pipeline</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="user-guide-images/overview.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </para>
+    <section>
+      <title>Samples of Customized Comparisons</title>
+      <para>A set of <citetitle xlink:href="../samples/ReadMe.html">samples</citetitle> are included
+        with DeltaXML Core; these include working code and documentation for a number of customized
+        comparison scenarios.</para>
+    </section>
+    <section>
+      <title>Choosing the Comparator</title>
+      <para>When a comparison is invoked via the recommended <citetitle xlink:href="api/index.html"
+          >com.deltaxml.cores9api</citetitle> API, you have the choice of two comparator classes:
+          <code>DocumentComparator</code> or <code>PipelinedComparatorS9</code>. <emphasis>(Note
+          that when the GUI or command-line processor is used to start a comparison, the standard
+          pipelined comparator class: <code>PipelinedComparatorS9</code> performs the
+          comparisons).</emphasis></para>
+      <variablelist>
+        <varlistentry>
+          <term>Pipelined Comparator</term>
+          <listitem>
+            <para>Implemented via the <citetitle condition="java"
+                xlink:href="api/com/deltaxml/cores9api/PipelinedComparatorS9.html">
+                <code>PipelinedComparatorS9</code></citetitle><citetitle condition="dotnet"
+                xlink:href="api/html/T_DeltaXML_CoreS9Api_PipelinedComparatorS9.htm">
+                <code>PipelinedComparatorS9</code></citetitle> class, this provides a very flexible
+              form of comparison, best suited for when the input XML is not always document based or
+              when your require low-level control of the processing pipeline. Except for
+              restrictions associated with lexical preservation filters, input and output filters
+              can be added to the processing pipeline at any point.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Document Comparator</term>
+          <listitem>
+            <para>Implemented through the <citetitle condition="java"
+                xlink:href="api/com/deltaxml/cores9api/DocumentComparator.html"
+                  ><code>DocumentComparator</code></citetitle><citetitle condition="dotnet"
+                xlink:href="api/html/T_DeltaXML_CoreS9Api_DocumentComparator.htm"
+                  ><code>DocumentComparator</code></citetitle> class, this has a pipeline specially
+              optimized for document comparison, <emphasis>Figure 5</emphasis> shows a simplified
+              representation of this pipeline. Explicit extension points are available on the
+              pipeline so new filter-steps or chains can be inserted in a managed way. </para>
+            <figure>
+              <title>Filter steps or chains can be applied to specific extension points of the
+                Document Comparator</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="user-guide-images/extension-points.png"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+    <section>
+      <title>Defining Pipelines</title>
+      <para/>
+      <variablelist>
+        <varlistentry>
+          <term>Pipelined Comparator</term>
+          <listitem>
+            <para>The Pipelined Comparator allows comparisons to be optimized for particular types
+              of data or document structure, it also allows customisation of the way detected
+              differences are represented in the output. The pipeline for a Pipelined Comparator is
+              defined using a set of filters managed in <code>FilterStep</code> and
+                <code>FilterChain</code> objects that can be added at both comparator inputs ('A'
+              and 'B') or the comparator output.</para>
+            <para>The guide, <citetitle
+                xlink:href="dxml:content:products:core:docs:pipeline-definition">Specifying a
+                Comparison Pipeline</citetitle> provides an overview of how pipelines can be defined
+              with the Pipelined Comparator, specifically through the use of Java, C# or an XML
+              pipeline descriptor file format, called DXP.</para>
+            <para>More details on the use of DXP can be found in the document <citetitle
+                xlink:href="dxml:content:products:core:docs:guide-to-dxp">Pipeline Configuration
+                using DXP</citetitle>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Document Comparator</term>
+          <listitem>
+            <para>The Document Comparator differs from the Pipelined Comparator in that key parts of
+              the pipeline are pre-defined with specialist document camparison features; this
+              pipeline is modified by adding filters at certain named 'extension points'.</para>
+            <para> As in the Pipelined Comparator, filters are managed as <code>FilterStep</code>
+              and <code>FilterChain</code> objects in Java or C#, these are added to the pipeline
+              using the DocumentComparator's <code>setExtensionPoint</code> method. An alternative
+              way to configure a Document Comparator is to use a Document Comparator Pipelines
+              configuration file (DCP).</para>
+            <para> The Document Comparator is described in the <citetitle
+                xlink:href="dxml:content:products:core:docs:document-comparator-guide">Document
+                Comparator Guide</citetitle>. More details on using DCP can be found in the guide
+                <citetitle xlink:href="dxml:content:products:core:docs:guide-to-dcp">Document
+                Comparator Configuration using DCP</citetitle>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>JAXP Pipeline Comparator (legacy)</term>
+          <listitem>
+            <para>A lower level method (now regarded as legacy but still useful for advanced users)
+              for creating pipelines is also available for Java developers, this exploits JAXP
+              interfaces. For this, <citetitle
+                xlink:href="dxml:content:products:core:docs:jaxp-samples">JAXP Pipeline
+                Examples</citetitle> introduces you to a set of examples available for download, the
+              paper <citetitle
+                xlink:href="dxml:content:support:documents:articles-and-papers:pdf:deltaxml-paper-xml-2004"
+                >Powering Pipelines with JAXP</citetitle> provides further details on using
+              JAXP.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <variablelist>
+        <varlistentry>
+          <term>Pipeline Diagnostics</term>
+          <listitem>
+            <para>When there is a need to diagnose stages in a pipeline, a
+                <emphasis>debugFiles</emphasis> mode is available where the inputs and outputs of
+              each filter is output to separate file, a file naming convention is used to indicate
+              where each 'debug file' fits into the pipeline. The debugFiles mode is set either by
+              the <code>setDebugFiles</code> method call or with a Configuration Property (see
+                <citetitle xlink:href="dxml:content:support:documents:configuration-properties"
+                >Configuration Propereties</citetitle>) in a DeltaXML Configuration file named
+              'deltaXMLConfig.xml', sample XML for setting this property is shown below:</para>
+            <programlisting>
+<![CDATA[<!DOCTYPE deltaxmlConfig SYSTEM "deltaxml-config.dtd">
+<deltaxmlConfig>
+  <configProperty
+    name="com.deltaxml.cores9api.DocumentComparator.debugFiles"
+    value="true" />
+  <configProperty
+    name="com.deltaxml.cores9api.PipelinedComparatorS9.debugFiles"
+    value="true" />
+</deltaxmlConfig>]]>
+      </programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+    <section>
+      <title>Configuration</title>
+      <para>Low-level Core functionality is configured using different methods according to how the
+        functionality is implemented. These different methods are summarized below:</para>
+      <table frame="all" role="uniform-rows">
+        <title>Configuration Summary</title>
+        <tgroup cols="4">
+          <colspec colname="c1" colnum="1" colwidth="1.2*"/>
+          <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+          <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+          <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+          <thead>
+            <row>
+              <entry>Config Properties</entry>
+              <entry>Comparator Features &amp; Properties</entry>
+              <entry>Parser Features</entry>
+              <entry>Output Properties</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>Diagnostics Settings</entry>
+              <entry>DeltaV Format</entry>
+              <entry>Configure XInclude</entry>
+              <entry>Indentation</entry>
+            </row>
+            <row>
+              <entry>Catalog Settings</entry>
+              <entry>Matching Algorithm</entry>
+              <entry>JAXP/SAX Features</entry>
+              <entry>Doctype<footnoteref linkend="config1"/></entry>
+            </row>
+            <row>
+              <entry>Lexical Preservation<footnoteref linkend="config2"/></entry>
+              <entry>Diff/Patch Mode</entry>
+              <entry/>
+              <entry/>
+            </row>
+            <row>
+              <entry/>
+              <entry>Ordering Priority</entry>
+              <entry/>
+              <entry/>
+
+            </row>
+
+          </tbody>
+
+        </tgroup>
+
+      </table>
+      <informaltable role="uniform-rows">
+        <tgroup cols="1">
+          <tbody>
+            <row>
+              <entry><footnote xml:id="config1">
+                  <para/>
+                </footnote><emphasis>DocType is affected by the
+                    <emphasis>LexicalPreservation</emphasis> configuration property.</emphasis>
+              </entry>
+            </row>
+            <row>
+              <entry><footnote xml:id="config2">
+                  <para/>
+                </footnote><emphasis>Preferred method for setting LexicalPreservation is via the
+                  API.</emphasis></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <variablelist>
+        <varlistentry>
+          <term>Configuration Properties</term>
+          <listitem>
+            <para>Configuration Properties are used to control certain properties of a comparison
+              operation that may have a wider scope than standard features and properties, more
+              details can be found in the <citetitle
+                xlink:href="dxml:content:support:documents:configuration-properties">Configuration
+                Properties</citetitle> guide.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Comparator Features and Properties</term>
+          <listitem>
+            <para>Features and properties are managed using the API or a DXP/DCP definition, the
+                <citetitle xlink:href="dxml:content:products:core:docs:features">Features and
+                Properties</citetitle> document describes the features and properties
+              available.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Parser Features</term>
+          <listitem>
+            <para>Features for the Apache Xerces parser can be set either from the API or a DXP/DCP
+              configuration, a DXP example can be found in the sample <citetitle
+                xlink:href="../samples/XInclude/ReadMe.html">Using XInclude with
+                DeltaXML</citetitle>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Output Properties</term>
+          <listitem>
+            <para>Output properties control the serializer of Core's internal Saxon processor, they
+              are set from the API or using DXP or DCP. An example of how DocType and indentation is
+              set using DXP can be found in the <citetitle
+                xlink:href="dxml:content:products:core:docs:guide-to-dxp">Pipeline Configuration
+                using DXP</citetitle> document.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </section>
+  </section>
+
+  <section>
+    <title>Document Comparison</title>
+    <para>XML document types such as DITA, DocBook and XHTML share a common set of features such as:
+      inline formatting, tables, ordered/orderless lists and linked resources. To help achieve
+      simple and accurate difference reports when comparing documents, each element supporting these
+      features can be processed in a special way, both at comparison time and when the result is
+      output.</para>
+    <figure>
+      <title>Many document features can benefit from special processing.</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="user-guide-images/document.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>For optimized processing of document-centric features, two approaches are recommended.
+      The first approach is to exploit built-in features in DeltaXML Core's new document comparator
+      augmented with custom XSLT filters where required. The second, more complex approach, is to use the
+      pipelined comparator with a specially configured pipeline exploiting a set of custom XSLT
+      filters.</para>
+    <para>Most of the features outlined in this section are incorporated into the document
+      comparator, however links are included to samples for cases where you wish customize your own
+      pipelined comparator, these samples also provide some useful insight into how the capabilities
+      that are built into the document comparator actually work. Not all features are enabled by
+      default in the document comparator.</para>
+
+    <!--<para>The <citetitle xlink:href="dxml:content:products:core:docs:filters-and-pipelines">Filters for Document Processing</citetitle> tutorial shows how
+      filters for some of these elements may be used in practice when using the standard, non-document, comparator.</para>-->
+    <variablelist>
+      <varlistentry>
+        <term>Text Comparison</term>
+        <listitem>
+          <para>Normally text comparisons are case-sensitive, but there are certain contexts where
+            case should be ignored, the <citetitle
+              xlink:href="dxml:content:products:core:docs:case-insensitive-comparison">Case
+              Insensitive Comparison</citetitle> sample shows how this can be done. Also, comparison
+            of text within each element of a document can be performed at different levels, three
+            levels are considered for DeltaXML Core, as outlined below:</para>
+          <itemizedlist>
+            <listitem>
+              <para><emphasis>Text-node Level</emphasis> - if the contents of a text-node changes
+                the whole node is marked as a change (noting that a mixed-content element may
+                contain more than one text node).</para>
+            </listitem>
+            <listitem>
+              <para><emphasis>Word by Word</emphasis> - allows differences in content to be resolved
+                down to specific words - normally differences are shown at the element level. The
+                  <citetitle xlink:href="dxml:content:products:core:docs:word-by-word">Word by Word
+                  Text Comparison</citetitle> tutorial introduces you to this concept.</para>
+            </listitem>
+            <listitem>
+              <para><emphasis>Character by Character</emphasis> - a further refinement to Word by
+                Word comparison, where differences within words are marked, this is described
+                further in the <citetitle
+                  xlink:href="dxml:content:products:core:docs:character-by-character">Character by
+                  Character Comparison</citetitle> tutorial.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Lexical Preservation</term>
+        <listitem>
+          <para>For preservation of content that is often lost when processing XML, this covers XML
+            comments, XML processing-instructions, CDATA tags, DOCTYPE declarations and entity
+            references. The features supporting this in Core are described in the <citetitle
+              xlink:href="dxml:content:products:core:docs:lexical-preservation-intro">Lexical
+              Preservation</citetitle> reference. For further help on the use of custom lexical
+            preservation filters, there are also the tutorials: <citetitle
+              xlink:href="../samples/PreservePIsAndComments/ReadMe.html">How to Preserve Processing
+              Instructions and Comments</citetitle> and <citetitle
+              xlink:href="../samples/PreserveDoctypes/ReadMe.html">How to Preserve Doctype
+              Information</citetitle>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Whitespace Management</term>
+        <listitem>
+          <para>Whitespace-only nodes found in an XML document should be treated differently
+            depending on whether they are a significant part of content (as in mixed content) or
+            simply used for formatting the XML source. The technique for this is described in the
+              <citetitle xlink:href="dxml:content:products:core:docs:managing-white-space">Managing
+              White Space</citetitle> tutorial.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Table Comparison</term>
+        <listitem>
+          <para>Complications arise when comparing tables where the structure has changed, for
+            example, when a column has been inserted or removed, the <code>DocumentComparator</code>
+            class of the Core API has <code>ProcessCalsTables</code> and
+              <code>ProcessHTMLTables</code> boolean properties (with get/set methods for Java)
+            that, when set, will manage table comparison so that the result remains valid.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Key-assisted Matching</term>
+        <listitem>
+          <para>Some document elements have unique content, such as <code>id</code> attributes, that
+            can be highlighted for the comparator by adding a special key attribute. Keys are
+            particularly useful for matching 'orderless' elements, but can also be of value for
+            ordered elements, with some additional processing to handle moves (see <citetitle
+              xlink:href="../samples/HandleMoves/ReadMe.html">Detecting and Handling
+              Moves</citetitle>. More information can be found in the following samples and
+              guides:<citetitle xlink:href="../samples/OrderedComparison/ReadMe.html">Ordered
+              Comparison</citetitle>, <citetitle
+              xlink:href="dxml:content:products:core:docs:mixed-order">Mixed Ordered and Orderless
+              Data</citetitle> and <citetitle
+              xlink:href="../samples/OrderlessComparison/ReadMe.html">Comparing Orderless
+              Elements</citetitle>. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Linked Resources</term>
+        <listitem>
+          <para>For elements whose main purpose is to link to other resources such as images or
+            other documents, results can be improved if special processing is applied. Filters can
+            be included in the processing pipeline to handle such cases. The <citetitle
+              xlink:href="dxml:content:products:core:docs:image-compare"> Image and Binary
+              Comparison</citetitle> sample shows how such link elements can be processed using an
+            XSLT filter that exploits a Java extension function for binary file comparison. This
+            sample could be adapted to suit cases where the link target is a text or XML resource.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Formatting Elements</term>
+        <listitem>
+          <para>The document comparator can be configured (by modifying a simple XSLT identity
+            transform) to recognize and process elements used predominantly for inline formatting.
+            This allows content-based element alignment and supports overlaps in the formatted-text
+            range between compared versions. Such formatting differences are represented using
+            extensions introduced in version 2.1 of DeltaV2 and described in the document <citetitle
+              xlink:href="dxml:content:support:documents:deltav21">Overlapping Hierarchies in
+              DeltaV2</citetitle>. Formatting differences can be rendered or styled independently
+            from structural changes according to need.</para>
+          <para>A practical example of formatting element processing is included in the <citetitle
+              xlink:href="dxml:content:products:core:docs:formatting-elements">Formatting Element
+              Changes</citetitle> sample.</para>
+          <figure>
+            <title>Overlaps in formatting in different versions are detected and recorded in the
+              DeltaV2.</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="user-guide-images/overlapping.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+  </section>
+
+  <section>
+    <title>Data Comparison</title>
+    <para>For more data-centric XML resources, the comparison pipeline may have a number of design
+      considerations and priorities different from those for comparing document-centric resources
+      (as described in the previous section). This section outlines comparison features that are
+      more significant in this context, but of course, many features described in the
+        <citetitle>Document Comparison</citetitle> section above may also apply.</para>
+    <variablelist>
+      <varlistentry>
+        <term>Numeric Tolerances</term>
+        <listitem>
+          <para>For comparison of floating point numbers there may be a requirement to ignore value
+            differences within a specified tolerance, this tolerance can be implemented via output
+            filters based on existing filter resources included in Core, <citetitle
+              xlink:href="../samples/NumericTolerances/ReadMe.html">Numeric Tolerances</citetitle>
+            is a worked example of this.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Comparing Large Datasets</term>
+        <listitem>
+          <para>When comparing large datasets there are some extra factors to consider, these are
+            covered in the <citetitle xlink:href="dxml:content:products:core:docs:large-files"
+              >Comparing Large Files</citetitle> guide.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Ignoring Changes</term>
+        <listitem>
+          <para>For cases where changes in data are expected but not deemed significant, changes can
+            be 'ignored' in the processing pipeline, a technique for this is explained in the
+            sample: <citetitle xlink:href="../samples/IgnoreChanges/ReadMe.html">Ignoring
+              Changes</citetitle>.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+
+  </section>
+
+  <section>
+    <title>System Integration</title>
+    <variablelist>
+      <varlistentry>
+        <term>Java and .NET APIs</term>
+        <listitem>
+          <para>While other methods are provided (such as the command line), Core is designed
+            primarily to be controlled through its API. This runs natively on the Java 1.6 platform
+            but there is also a .NET API wrapper for easy integration with the .NET
+            framework.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Saxon Compatibility</term>
+        <listitem>
+          <para>Certain parts of the API allow for integration with an external (Saxonica Ltd) Saxon
+            XSLT/XQuery processor, for example overloads of the <code>compare</code> function
+            provided by the comparator APIs take Saxon XdmNode instances as arguments. To minimize
+            potential version conflicts with Core's internal processor, Core (versions 8.2 and
+            later) exploits a 'compatibility layer' supporting Saxon versions 9.5, 9.6 and
+            9.7.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>XML Catalog Resolving</term>
+        <listitem>
+          <para>Core uses a custom version of the Apache commons OASIS catalog resolver by default,
+            this can however be changed. Further details are in the guide: <citetitle
+              xlink:href="dxml:content:products:core:docs:using-catalogs">Using a Catalog
+              Resolver</citetitle>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Progress Listeners</term>
+        <listitem>
+          <para>Systems often have the need to self-monitor or provide progress feedback to an
+            end-user for operations that have the potential to take a noticable amount of time. The
+            Core API has provision for adding progress listeners via a <citetitle condition="java"
+              xlink:href="api/com/deltaxml/cores9api/PipelineProgressListener.html"
+              >ProgressListener</citetitle><citetitle condition="dotnet"
+              xlink:href="api/html/T_DeltaXML_CoreS9Api_PipelineProgressListener.htm"
+              >ProgressListener</citetitle> interface, allowing a comparison to be monitored through
+            each significant processing stage in the pipeline configuration.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+
+  </section>
+
+  <section>
+    <title>Output Formats</title>
+    <section>
+      <title>Direct Core Output</title>
+      <para>The direct output from Core is the 'Delta', this is the base XML output for both the
+        Pipelined Comparator and the Document Comparator. By default the Delta includes all content,
+        including unchanged content, but there's also an option for a 'patch' output where only the
+        changes are included. Other output format options are also available and described in this
+        section, these are essentially transforms of the original Delta.</para>
+      <section>
+        <title>The Delta</title>
+        <figure>
+          <title>The <emphasis>Delta</emphasis> XML output from Core uses the DeltaV2
+            format.</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="user-guide-images/deltav2.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>The Delta is the XML output direct from the Core comparator which uses the DeltaV2
+          format to mark up changes. This format is designed to be compact whilst also making code
+          that processes it clean and efficient. Version 2.0 of the DeltaV2 format is used by
+          default, but if the Document Comparator is used with marked up formatting elements, then
+          version 2.1 is used. Version 2.1 is a superset of 2.0 with extensions to represent
+          overlapping XML hierarchies.</para>
+
+        <para>At its simplest, the DeltaV2 format is a representation of the 'A' and 'B' documents
+          in a single document. For this, <code>deltaxml:deltaV2</code> attributes (in the DeltaXML
+          namespace) are added to all elements where differences are found. The <code>deltaV2</code>
+          attribute may hold one of the following values: <code>A</code>, <code>B</code>,
+            <code>A=B</code> and <code>A!=B</code>. The <code>A</code> or <code>B</code> represents
+          the document source, and the <code>=</code> or <code>!=</code> separator indicates if the
+          matching source elements are the same or different. Extra elements in the DeltaXML
+          namespace are used to represent modified text or attribute nodes. The DeltaV2 format is
+          defined in full in the <citetitle xlink:href="dxml:content:support:documents:deltav2"
+            >DeltaV2 reference</citetitle>, a more detailed description of the extensions added in
+          version 2.1 are described in the reference: <citetitle
+            xlink:href="dxml:content:support:documents:deltav21">Overlapping Hierarchies in
+            DeltaV2</citetitle>. </para>
+
+      </section>
+    </section>
+    <section>
+      <title>Supplementary Output Formats</title>
+      <para>This section describes output format filters included with the Core distribution. These
+        are used to transform the Delta output within the comparison pipeline (Pipelined Comparator
+        or Document Comparator) immediately prior to serialization.</para>
+      <!-- tracked changes not yet supported (31/01/2014) -->
+      <!--
+    <section>
+      <title>Tracked Changes</title>
+      <figure>
+        <title>The Document Comparator supports the <emphasis>tracked changes</emphasis> feature in XML Editors</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="user-guide-images/tracked-changes.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Many XML editors support a <emphasis>tracked changes</emphasis> feature incorporated into an Author Mode
+        with a WISYWIG view; the output from Core can be be represented as tracked changes (in supported tools). The
+        main benefit of this is that detected changes can be more easily accepted or rejected and further edits made
+        within the chosen editor. Named FilterChain implementations are available for insertion into the Document
+        Comparator pipeline via the API to produce output conforming to the <emphasis>tracked changes</emphasis> format
+        for the following XML editors: <itemizedlist>
+          <listitem>
+            <para><emphasis>oXygen</emphasis></para>
+          </listitem>
+          <listitem>
+            <para><emphasis>PTC ArborText</emphasis></para>
+          </listitem>
+          <listitem>
+            <para><emphasis>XMetal</emphasis></para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    -->
+      <section>
+        <title>HTML Difference Reports</title>
+
+        <variablelist>
+          <varlistentry>
+            <term>HTML5 Side-by-Side (diffreport-sbs)</term>
+            <listitem>
+              <para>This is a JavaScript-dependent HTML view that presents the comparison result of
+                the raw XML of the input file versions rendered alongside each other, colored
+                graphics are used to show how matching elements align. The user-interface provides
+                up/down buttons on a toolbar allowing the end-user to highlight each change.</para>
+              <figure>
+                <title>The 'side-by-side' output format.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="user-guide-images/sidebyside.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+              <para>In the Pipelined Comparator, the HTML for this view can be generated using a
+                built in DXP configuration which is invoked from the command-line or GUI using the
+                  <code>diffreport-sbs</code> configuration id. Alternatively, it can be generated
+                from the Core API with the <code>dx2-side-by-side.xsl</code> stylesheet added as the
+                final output filter.</para>
+              <para>For the Document Comparator, the DCP equivalent configuration
+                  <code>doc-diffreport-sbs</code>must be used. Or, if using the API, the XSLT filter
+                  <code>dx2-side-by-side.xsl</code> should be added as a filter-step to the
+                  <code>OUTPUT_FINAL</code> extension point, as shown in the following Java
+                code:</para>
+              <programlisting>
+DocumentComparator dcr= new DocumentComparator();
+FilterStepHelper   fsh= dcr.<emphasis role="strong">newFilterStepHelper</emphasis>();
+FilterChain     fChain= fsh.<emphasis role="strong">newFilterChain</emphasis>();
+FilterStep       fsSBS= fsh.<emphasis role="strong">newFilterStepFromResource</emphasis>(
+                 "xsl/side-by-side/dx2-side-by-side.xsl", "side-by-side");
+fChain.<emphasis role="strong">addStep</emphasis>(fsSBS);
+dcr.<emphasis role="strong">setExtensionPoint</emphasis>(ExtensionPoint.OUTPUT_FINAL, fChain);</programlisting>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>HTML Folding Report (diffreport)</term>
+            <listitem>
+              <para>As with the side-by-side view described earlier, this is also a
+                JavaScript-dependent HTML view of the comparison result. This view, however, shows
+                XML differences interleaved within a single view of the XML.</para>
+              <para>The color of the rendered XML indicates the type of change (blue, green and red
+                for 'modified', 'added' and 'deleted' respectively). The view of each element nodes
+                may be folded/unfolded by pressing the icon immediately to the left of the start
+                tag. A simple toolbar and differences list allow for easier navigation of changes in
+                large documents. </para>
+              <figure>
+                <title>The 'folding' output format.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="user-guide-images/diffreport-min.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+              <para>With the Pipelined Comparator, the HTML for the folding view is generated using
+                a built in DXP configuration which can be invoked either from the GUI or from the
+                command-line, as with the side-by-side view, but now using the
+                  <code>diffreport</code> configuration id.</para>
+              <para>For the Document Comparator, the folding view can be created from the
+                command-line or GUI using the DCP configuration id <code>doc-diffreport</code>.
+                Alternatively the associated XSLT stylesheet can be added as a filter-step to final
+                output extension point. This is illustrated in the <citetitle
+                  xlink:href="dxml:content:products:core:docs:dcp-diffreport"
+                  >DCPdiffReport</citetitle> sample.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section>
+        <title>XML Diff and Patch Output</title>
+        <para>The Core comparators may be configured to output either a <emphasis>full
+            context</emphasis> delta (the default), or a <emphasis>changes only</emphasis> delta.
+          When the pipelined comparator (but not the document comparator) is used, the changes-only
+          format may be used to recreate document B from document A, this could be useful in version
+          control systems and similar scenarios. A worked example of this is: <citetitle
+            xlink:href="dxml:content:products:core:docs:deltas-for-versioning">Using Deltas for XML
+            Versioning (diff and patch)</citetitle></para>
+      </section>
+    </section>
+    <section>
+      <title>Document Comparator Formats</title>
+      <section>
+        <title>Tracked Changes</title>
+        <para>Many XML editors support a <emphasis>tracked changes</emphasis> feature incorporated
+          into an Author Mode with a WISYWIG view; the output from Core can be be represented as
+          tracked changes in supported tools. The main benefit is that detected changes can be more
+          easily accepted or rejected and further edits made within the chosen editor. The Document
+          Comparator API provides a <code>setResultFormat</code> method of the
+            <code>OutputFormatConfiguration</code> object to produce output conforming to the
+            <emphasis>tracked changes</emphasis> format for the following XML editors: <itemizedlist>
+            <listitem>
+              <para><emphasis>oXygen</emphasis></para>
+            </listitem>
+            <listitem>
+              <para><emphasis>PTC ArborText</emphasis></para>
+            </listitem>
+            <listitem>
+              <para><emphasis>XMetal</emphasis></para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <figure>
+          <title>The <emphasis>tracked changes</emphasis> feature supports a number of XML
+            Editors</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="user-guide-images/tracked-changes.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+  </section>
+
+</article>

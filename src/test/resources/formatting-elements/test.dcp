@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentComparator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0"
+    xsi:noNamespaceSchemaLocation="core-dcp-v1_0-schema1_1.xsd" 
+    id="dcp-formatting-test" 
+    description="formatting-elements sample using DCP" >
+  <!-- 
+       for schema v1.1 validation of this file, change xsi:noNamespaceSchemaLocation above to:
+       xsi:noNamespaceSchemaLocation="../dcp/core-dcp-v1_0-schema1_1.xsd"
+  -->
+  <pipelineParameters>
+    <booleanParameter name="mark-formatting" defaultValue="true">
+      <description>Set this 'true' to mark up formatting-elements.</description>
+    </booleanParameter>
+    <booleanParameter name="change-gathering" defaultValue="true"/>
+    <booleanParameter name="keep-ignorable" defaultValue="false"/>
+	
+  	<stringParameter name="orphan-threshold" defaultValue="20"/>
+  	<stringParameter name="orphan-length" defaultValue="2"/>
+    <booleanParameter name="orphaned-words" defaultValue="true"/>
+    <!-- determined whether to use external formatting-element optimisation -->
+    <stringParameter name="optimise-formatting-changes" 
+      defaultValue="{if ($mark-formatting and ($orphaned-words or $change-gathering)) then 'yes' else 'no'}"/>
+	
+  </pipelineParameters>
+  
+  <advancedConfig>
+    <outputProperties>
+      <property name="indent" literalValue="no"/>
+    </outputProperties>
+  </advancedConfig>
+  
+  <standardConfig>
+    
+	<resultReadabilityOptions>
+    <mixedContentDetectionScope literalValue="local"/>
+		<changeGatheringEnabled parameterRef="change-gathering"/>
+		<modifiedWhitespaceBehaviour literalValue="normalize"/>
+      <orphanedWordDetectionEnabled parameterRef="orphaned-words"/>
+      <orphanedWordLengthLimit parameterRef="orphan-length"/>
+      <orphanedWordMaxPercentage parameterRef="orphan-threshold"/>
+		<elementSplittingEnabled literalValue="false"/>
+		<!--<elementSplittingThreshold literalValue="100"/>-->
+    </resultReadabilityOptions>
+	  
+    <outputFormatConfiguration>
+      <!-- change this to see different formatting-element change representations -->
+      <modifiedFormatOutput literalValue="change"/>
+    </outputFormatConfiguration>
+	
+	 <lexicalPreservation>
+      <defaults>
+        <retain literalValue="true"/>
+        <processingMode literalValue="change"/>
+        <outputType literalValue="normal"/>
+      </defaults>
+	   <overrides>
+	     <preserveItems>
+	       <ignorableWhitespace>
+	         <retain parameterRef="keep-ignorable"/>
+	       </ignorableWhitespace>
+	       <documentLocation>
+	         <retain literalValue="false"/>
+	       </documentLocation>
+	     </preserveItems>
+	   </overrides>
+    </lexicalPreservation>
+    
+  </standardConfig>
+  
+  
+  <extensionPoints>
+    <inputPreFlatteningPoint>
+    <filter if="mark-formatting">
+      <file path="fe-mark-formatting.xsl" relBase="dxp"/>
+    </filter>
+	</inputPreFlatteningPoint>
+  </extensionPoints>
+  
+  <fullDescription>
+    Diff configuration for NFPA Topics
+  </fullDescription>
+  
+</documentComparator>
