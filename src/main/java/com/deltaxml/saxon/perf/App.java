@@ -21,7 +21,7 @@ public final class App {
     public static void main(String[] args) {
         String sourcePath = "src/test/resources/test1/input.xml";
         String xsltPath = "src/test/resources/test1/test.xsl";
-        String resultPath = "src/test/resources/test1/result.xsl";
+        String resultPath = "src/test/resources/test1/result.xml";
 
         String sourceFile = "-s:" + getFileFromPath(sourcePath);
         String xsltFile = "-xsl:" + getFileFromPath(xsltPath);
