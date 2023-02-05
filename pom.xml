@@ -24,38 +24,7 @@
     <jacoco.unit-tests.limit.method-complexity>20</jacoco.unit-tests.limit.method-complexity>
   </properties>
   <dependencies>
-    <!-- XML Compare JARs-->
-    <dependency>
-      <groupId>com.deltaxml</groupId>
-      <artifactId>deltaxml</artifactId>
-      <version>12.0.1</version>
-    </dependency>
-    
-    <!-- Patched XML Commons resolver -->
-    <dependency>
-      <groupId>com.deltaxml</groupId>
-      <artifactId>resolver</artifactId>
-      <version>11.1.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.deltaxml</groupId>
-      <artifactId>xml-apis</artifactId>
-      <version>2.12.1.0</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.flexera</groupId>
-      <artifactId>eccpresso-all</artifactId>
-      <version>11.14.1.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.flexera</groupId>
-      <artifactId>flexlm</artifactId>
-      <version>11.14.1.1</version>
-    </dependency>
-    
+    <!-- XML Compare JARs--> 
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-PE</artifactId>
@@ -72,18 +41,6 @@
           <artifactId>xml-resolver</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.ibm.icu</groupId>
-      <artifactId>icu4j</artifactId>
-      <version>69.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>it.unimi.dsi</groupId>
-      <artifactId>fastutil</artifactId>
-      <version>8.5.8</version>
     </dependency>
     
     <!-- testing-->
@@ -119,12 +76,8 @@
             </goals>
             <configuration>
               <includeGroupIds>
-                com.deltaxml,
-                com.flexera,
                 net.sf.saxon,
-                xerces,
-                com.ibm.icu,
-                it.unimi.dsi
+                xerces
               </includeGroupIds>
               <prefix>dependency</prefix>
               <outputProperty>dependencies.classpath.raw</outputProperty>
