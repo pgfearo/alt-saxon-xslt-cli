@@ -9,7 +9,7 @@ public class AltMessageListener implements MessageListener {
 
     @Override
     public void message(XdmNode msg, boolean terminate, SourceLocator locator) {
-        System.err.println("new: " + msg.getStringValue());
+        System.err.println(msg.getStringValue());
     }
 
 }
