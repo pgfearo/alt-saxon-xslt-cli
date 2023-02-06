@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.deltaxml.saxon.perf</groupId>
   <artifactId>deltaxml-saxon-perf</artifactId>
-  <version>1.0-SAXON11</version>
+  <version>1.0-SAXON12</version>
   <packaging>jar</packaging>
   <properties>
     <checkstyle.skip>true</checkstyle.skip>
@@ -28,7 +28,7 @@
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
-      <version>11.4</version>
+      <version>12.0</version>
     </dependency>
     
     <dependency>
