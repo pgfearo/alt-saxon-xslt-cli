@@ -8,7 +8,7 @@
                 exclude-result-prefixes="#all"
                 expand-text="yes"
                 version="3.0">
-  <xsl:include href="../../../../../xpath-result-serializer/src/xpath-result-serializer-color.xsl"/>
+  <xsl:include href="../../../../xpath-result-serializer/src/xpath-result-serializer-color.xsl"/>
   <xsl:output method="xml" indent="yes"/>
   <xsl:mode on-no-match="shallow-copy"/>
   

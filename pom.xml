@@ -116,7 +116,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.deltaxml.dcp.perf.App</mainClass>
+              <mainClass>com.deltaxml.saxon.perf.AltTransform</mainClass>
               <addClasspath>true</addClasspath>
               <classpathPrefix>dependency/</classpathPrefix>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -187,10 +187,9 @@
         <configuration>
           <argLine>-Xmx8G</argLine>
           <argLine>-Xms8G</argLine>
-          <systemPropertyVariables>
-            <printer.overWrite>true</printer.overWrite>
-            <compare.debug>false</compare.debug>
-          </systemPropertyVariables>
+          <skipTests>false</skipTests>
+          <testFailureIgnore>true</testFailureIgnore>
+          <forkMode>once</forkMode>
         </configuration>
       </plugin>
       <plugin>

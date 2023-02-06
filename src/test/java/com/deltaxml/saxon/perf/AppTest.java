@@ -1,9 +1,6 @@
-package com.deltaxml.dcp.perf;
+package com.deltaxml.saxon.perf;
 
 import org.junit.jupiter.api.Test;
-
-import com.deltaxml.saxon.perf.App;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -21,7 +18,7 @@ class AppTest {
         String testName = "control-test";
         URI testURI = null;
         try {
-            testURI = getClass().getResource("/formatting-elements").toURI();
+            testURI = getClass().getResource("/test1").toURI();
         } catch (URISyntaxException e) {
             fail("Exception: " + e.getMessage());
         }
@@ -31,22 +28,17 @@ class AppTest {
         outDir.mkdir();
         outXmlDir.mkdirs();
 
-        File dcpFile = new File(testDir, "test.dcp");
-        File inAFile = new File(testDir, "inA.xml");
-        File inBFile = new File(testDir, "inB.xml");
+        File sourceXMLFile = new File(testDir, "input.xml");
+        File xsltFile = new File(testDir, "test.xsl");
         File resultFile = new File(outXmlDir, "result.xml");
-        File timingFile = new File(outDir, "timing.txt");
 
         String[] args = {
-                testName,
-                dcpFile.getAbsolutePath(),
-                inAFile.getAbsolutePath(),
-                inBFile.getAbsolutePath(),
-                resultFile.getAbsolutePath(),
-                timingFile.getAbsolutePath()
+                "-s:" + sourceXMLFile.getAbsolutePath(),
+                "-xsl:" + xsltFile.getAbsolutePath(),
+                "-o:" + resultFile.getAbsolutePath(),
         };
 
-        App.main(args);
+        AltTransform.main(args);
         assertEquals(1, 1);
     }
 }
