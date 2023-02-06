@@ -16,13 +16,7 @@ class AppTest {
     @Test
     void testApp() {
         String testName = "control-test";
-        URI testURI = null;
-        try {
-            testURI = getClass().getResource("/test1").toURI();
-        } catch (URISyntaxException e) {
-            fail("Exception: " + e.getMessage());
-        }
-        File testDir = new File(testURI);
+        File testDir = getTestDir();
         File outDir = new File(testDir, "out");
         File outXmlDir = new File(outDir, "xml-output");
         outDir.mkdir();
@@ -40,5 +34,16 @@ class AppTest {
 
         AltTransform.main(args);
         assertEquals(1, 1);
+    }
+
+    private File getTestDir() {
+        URI testURI = null;
+        try {
+            testURI = getClass().getResource("/test1").toURI();
+        } catch (URISyntaxException e) {
+            fail("Exception: " + e.getMessage());
+        }
+        File testDir = new File(testURI);
+        return testDir;
     }
 }
